@@ -1,0 +1,43 @@
+{
+  "name": "node-edison",
+  "version": "0.9.0",
+  "description": "This is the node js version of the Edison .NET unit testing framework",
+  "main": "./lib/edison.js",
+  "bin": {
+    "edison": "./bin/edison"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Badgerati/node-edison.git"
+  },
+  "dependencies": {
+    "async": "^2.1.5",
+    "lodash": "^4.17.4",
+    "enum": "^2.4.0",
+    "moment": "^2.18.1",
+    "timespan": "^2.3.0",
+    "glob": "^7.1.1",
+    "minimist": "^1.2.0",
+    "path": "^0.12.7",
+    "thunkify": "^2.1.2",
+    "is-there": "^4.4.2",
+    "js-yaml": "^3.8.2"
+  },
+  "keywords": [
+    "edison",
+    "parallel",
+    "async",
+    "assert",
+    "unit",
+    "testing",
+    "tests",
+    "regression",
+    "system",
+    "integration"
+  ],
+  "author": "Matthew Kelly <badgerati42@gmail.com>",
+  "license": "MIT"
+}

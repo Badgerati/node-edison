@@ -1,0 +1,6 @@
+tests:
+  - examples\*.test.js
+
+disable_console_output: true
+console_output_type: dot
+sync_type: async

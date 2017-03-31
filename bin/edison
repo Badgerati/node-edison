@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+// load modules
+var fs   = require('fs');
+var Glob = require('glob');
+var IsThere = require('is-there');
+var Path = require('path');
+var Yaml = require('js-yaml');
+var Args = require('minimist')(process.argv.slice(2));
+
+// get the current directory path
+var curr = process.cwd();
+
+
+// first, create the initial opts form the CLI
+var opts = {
+    disable_console_output: (Args.disable_console_output || Args.dco || Args.q),
+    sync_type: (Args.sync_type || Args.st),
+    console_output_type: (Args.console_output_type || Args.cot),
+    test_result_url: (Args.test_result_url || Args.turl || Args.u),
+    test_run_id: (Args.test_run_id || Args.tid || Args.i),
+    test_run_name: (Args.test_run_name || Args.tname || Args.n),
+    test_run_env: (Args.test_run_env || Args.tenv || Args.e),
+    test_run_project: (Args.test_run_project || Args.tproj || Args.p),
+    slack_token: (Args.slack_token || Args.slack || Args.s)
+};
+
+
+// check to see if an Edisonfile path was passed, or if one exists at pwd
+var ef = (Args.ef || Path.resolve(curr, './Edisonfile'));
+if (IsThere(ef)) {
+    var doc = Yaml.safeLoad(fs.readFileSync(ef, 'utf8'));
+
+    // now, set any opts that are empty with ones from the Edisonfile
+    opts.disable_console_output = (opts.disable_console_output || doc.disable_console_output);
+    opts.sync_type = (opts.sync_type || doc.sync_type);
+    opts.console_output_type = (opts.console_output_type || doc.console_output_type),
+    opts.test_result_url = (opts.test_result_url || doc.test_result_url),
+    opts.test_run_id = (opts.test_run_id || doc.test_run_id),
+    opts.test_run_name = (opts.test_run_name || doc.test_run_name),
+    opts.test_run_env = (opts.test_run_env || doc.test_run_env),
+    opts.test_run_project = (opts.test_run_project || doc.test_run_project),
+    opts.slack_token = (opts.slack_token || doc.slack_token)
+
+    // if a tests key was passed, and no glob, then use Edisonfile glob
+    if ((!Args._ || Args._.length == 0) && doc.tests) {
+        Args._ = Args._.concat(doc.tests);
+    }
+}
+
+
+// parse the opts and setup globally
+process.env.edison_global_opts = JSON.stringify(opts);
+
+
+// validate the glob first
+Args._.forEach((glob) => {
+    Glob(glob, (err, files) => {
+        // if there's an error, report and exit
+        if (err) {
+            throw err;
+        }
+
+        // if there are no files found, report and exit
+        if (!files || files.length == 0) {
+            throw `No files found that match: ${glob}`;
+        }
+    });
+});
+
+
+// with a valid glob, run the tool
+Args._.forEach((glob) => {
+    Glob(glob, (err, files) => {
+        // stop edison running to populate tests
+        process.env.edison_global_run = 'false';
+
+        // load all of the files
+        files.forEach((file, i) => {
+            // if last file, allow edison to run
+            if (i == (files.length - 1)) {
+                process.env.edison_global_run = '';
+            }
+
+            // load tests
+            require(Path.resolve(curr, file));
+        });
+    });
+});
