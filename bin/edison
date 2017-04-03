@@ -43,8 +43,8 @@ if (IsThere(ef)) {
     opts.slack_token = (opts.slack_token || doc.slack_token)
 
     // if a tests key was passed, and no glob, then use Edisonfile glob
-    if ((!Args._ || Args._.length == 0) && doc.tests) {
-        Args._ = Args._.concat(doc.tests);
+    if ((!Args._ || Args._.length == 0) && doc.test_files) {
+        Args._ = Args._.concat(doc.test_files);
     }
 }
 

@@ -64,7 +64,7 @@ The `Edisonfile` allows you to save, and version control, the arguments that you
 The following is an example of the format:
 
 ```yaml
-tests:
+test_files:
   - tests\*.tests.js
 
 disable_console_output: true
@@ -92,4 +92,5 @@ For any bugs you may find or features you wish to request, please create an [iss
 * Send results to Slack
 * Re-run failed tests
 * Ability to set categories against tests, and to be able to include/exclude by category
-
+* The 'tests' in Edisonfile should be to only run specific tests
+* A new 'test_files' in Edisonfile should be to run files (specific or globbed)
