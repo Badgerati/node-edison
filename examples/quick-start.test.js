@@ -67,6 +67,14 @@ edison.test('expect-error-msg', { throws: /example/ }, (a, d) => {
 });
 
 
+// there's also the ability to set categories against your tests.
+// this allows you to include/exclude specific tests when running, to only certain ones
+// you care about
+edison.test('category-test', { categories: [ 'web', 'gui' ] }, (a, d) => {
+    d();
+});
+
+
 // finally, to actually run the tests, you need to call run
 // all tests by default are run synchrounously
 // to run set some tests to run async, pass opt: { async: true }

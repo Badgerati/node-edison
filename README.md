@@ -11,6 +11,7 @@ This is still in alpha, so use at own risk. Though from testing it's pretty reli
 * Can run tests async or sync.
 * CLI binary to run multiple test-files.
 * Able to have multiple test-cases for tests.
+* Set categories against tests to include/exclude specific ones during a full run.
 * Ability to store versioned console parameters in an Edisonfile.
 
 ## Usage
@@ -91,6 +92,4 @@ For any bugs you may find or features you wish to request, please create an [iss
 * Send results to URL
 * Send results to Slack
 * Re-run failed tests
-* Ability to set categories against tests, and to be able to include/exclude by category
 * The 'tests' in Edisonfile should be to only run specific tests
-* A new 'test_files' in Edisonfile should be to run files (specific or globbed)

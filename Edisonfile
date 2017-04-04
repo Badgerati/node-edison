@@ -1,6 +1,9 @@
 test_files:
   - examples\*.test.js
 
+#include:
+#  - web
+
 disable_console_output: true
 console_output_type: dot
 sync_type: async

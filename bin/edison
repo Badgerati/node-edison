@@ -20,9 +20,11 @@ var opts = {
     test_result_url: (Args.test_result_url || Args.turl || Args.u),
     test_run_id: (Args.test_run_id || Args.tid || Args.i),
     test_run_name: (Args.test_run_name || Args.tname || Args.n),
-    test_run_env: (Args.test_run_env || Args.tenv || Args.e),
+    test_run_env: (Args.test_run_env || Args.tenv),
     test_run_project: (Args.test_run_project || Args.tproj || Args.p),
-    slack_token: (Args.slack_token || Args.slack || Args.s)
+    slack_token: (Args.slack_token || Args.slack || Args.s),
+    include: (new Array()).concat(Args.include || Args.i || []),
+    exclude: (new Array()).concat(Args.exclude || Args.e || [])
 };
 
 
@@ -34,13 +36,15 @@ if (IsThere(ef)) {
     // now, set any opts that are empty with ones from the Edisonfile
     opts.disable_console_output = (opts.disable_console_output || doc.disable_console_output);
     opts.sync_type = (opts.sync_type || doc.sync_type);
-    opts.console_output_type = (opts.console_output_type || doc.console_output_type),
-    opts.test_result_url = (opts.test_result_url || doc.test_result_url),
-    opts.test_run_id = (opts.test_run_id || doc.test_run_id),
-    opts.test_run_name = (opts.test_run_name || doc.test_run_name),
-    opts.test_run_env = (opts.test_run_env || doc.test_run_env),
-    opts.test_run_project = (opts.test_run_project || doc.test_run_project),
-    opts.slack_token = (opts.slack_token || doc.slack_token)
+    opts.console_output_type = (opts.console_output_type || doc.console_output_type);
+    opts.test_result_url = (opts.test_result_url || doc.test_result_url);
+    opts.test_run_id = (opts.test_run_id || doc.test_run_id);
+    opts.test_run_name = (opts.test_run_name || doc.test_run_name);
+    opts.test_run_env = (opts.test_run_env || doc.test_run_env);
+    opts.test_run_project = (opts.test_run_project || doc.test_run_project);
+    opts.slack_token = (opts.slack_token || doc.slack_token);
+    opts.include = (opts.include.length > 0 ? opts.include : doc.include);
+    opts.exclude = (opts.exclude.length > 0 ? opts.exclude : doc.exclude);
 
     // if a tests key was passed, and no glob, then use Edisonfile glob
     if ((!Args._ || Args._.length == 0) && doc.test_files) {
